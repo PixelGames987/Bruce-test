@@ -729,6 +729,10 @@ String loopSD(FS &fs, bool filePicker, String allowed_ext, String rootPath) {
                                                              txIrFile(&fs, filepath);
                                                          }});
                     if (filepath.endsWith(".sub")) {
+                        options.insert(options.begin(), {"Subghz Tx", [&]() {
+                                                             delay(200);
+                                                             txSubFile(&fs, filepath);
+                                                         }});
                         options.insert(options.begin(), {"Subghz Tx Continuous", [&]() {
                                                              delay(200);
                                                              drawMainBorderWithTitle("Sub-GHz Continuous Tx");
@@ -738,10 +742,6 @@ String loopSD(FS &fs, bool filePicker, String allowed_ext, String rootPath) {
                                                                  txSubFile(&fs, filepath);
                                                                  vTaskDelay(100 / portTICK_PERIOD_MS);
                                                              }
-                                                         }});
-                        options.insert(options.begin(), {"Subghz Tx", [&]() {
-                                                             delay(200);
-                                                             txSubFile(&fs, filepath);
                                                          }});
                     }
                     if (filepath.endsWith(".csv")) {
