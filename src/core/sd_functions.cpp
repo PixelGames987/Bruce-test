@@ -728,11 +728,26 @@ String loopSD(FS &fs, bool filePicker, String allowed_ext, String rootPath) {
                                                              delay(200);
                                                              txIrFile(&fs, filepath);
                                                          }});
-                    if (filepath.endsWith(".sub"))
+                    if (filepath.endsWith(".sub")) {
                         options.insert(options.begin(), {"Subghz Tx", [&]() {
                                                              delay(200);
                                                              txSubFile(&fs, filepath);
                                                          }});
+                        options.insert(options.begin(), {"Subghz Tx Continuous", [&]() {
+                                                             delay(200);
+                                                             drawMainBorderWithTitle("Sub-GHz Continuous Tx");
+                                                             padprintln("");
+                                                             padprintln("Sending repeatedly...");
+                                                             padprintln("");
+                                                             tft.setTextColor(getColorVariation(bruceConfig.priColor), bruceConfig.bgColor);
+                                                             padprintln("Press [ESC] to stop.");
+                                                             tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
+                                                             while (!check(EscPress)) {
+                                                                 txSubFile(&fs, filepath);
+                                                                 vTaskDelay(100 / portTICK_PERIOD_MS);
+                                                             }
+                                                         }});
+                    }
                     if (filepath.endsWith(".csv")) {
                         options.insert(options.begin(), {"Wigle Upload", [&]() {
                                                              delay(200);
